@@ -1,0 +1,42 @@
+// Configuração do Banco
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Tabela de Profissionais (Tu)
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String
+  password     String
+  specialty    String
+  services     Service[]     // Um usuário pode ter vários serviços
+  createdAt    DateTime      @default(now())
+}
+
+// Tabela de Serviços (Ex: Corte de Cabelo, Consultoria)
+model Service {
+  id           String        @id @default(uuid())
+  name         String
+  price        Float
+  duration     Int           // Duração em minutos
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  appointments Appointment[]
+}
+
+// Tabela de Agendamentos (Onde os clientes marcam)
+model Appointment {
+  id           String   @id @default(uuid())
+  clientName   String
+  clientEmail  String
+  date         DateTime // Data e hora do agendamento
+  serviceId    String
+  service      Service  @relation(fields: [serviceId], references: [id])
+  status       String   @default("PENDING") // PENDING, CONFIRMED, CANCELED
+}
