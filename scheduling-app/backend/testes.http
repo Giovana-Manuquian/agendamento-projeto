@@ -1,0 +1,10 @@
+POST http://localhost:3000/appointments
+Content-Type: application/json
+
+{
+  "clientName": "Cliente Teste",
+  "clientEmail": "cliente@email.com",
+  "date": "2026-03-25T15:00:00Z",
+  "serviceId": "41a1bb49-6728-4502-b2b0-3302950837bf" 
+}
+

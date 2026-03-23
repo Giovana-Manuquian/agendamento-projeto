@@ -6,19 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.AppointmentsModule = void 0;
 const common_1 = require("@nestjs/common");
-const users_module_1 = require("./users/users.module");
-const services_module_1 = require("./services/services.module");
-const appointments_module_1 = require("./appointments/appointments.module");
-let AppModule = class AppModule {
+const appointments_service_1 = require("./appointments.service");
+const appointments_controller_1 = require("./appointments.controller");
+const prisma_service_1 = require("../prisma.service");
+let AppointmentsModule = class AppointmentsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.AppointmentsModule = AppointmentsModule;
+exports.AppointmentsModule = AppointmentsModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, services_module_1.ServicesModule, appointments_module_1.AppointmentsModule],
-        controllers: [],
-        providers: [],
+        controllers: [appointments_controller_1.AppointmentsController],
+        providers: [appointments_service_1.AppointmentsService, prisma_service_1.PrismaService],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], AppointmentsModule);
+//# sourceMappingURL=appointments.module.js.map
