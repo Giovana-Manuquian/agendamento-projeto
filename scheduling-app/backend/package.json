@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "prisma generate && nest build",
-    "start": "prisma migrate deploy && node dist/main",
+    "start": "prisma migrate deploy && node dist/main", //alterei aqui
     "start:dev": "nest start --watch",
     "start:prod": "prisma migrate deploy && node dist/main",
     "postinstall": "prisma generate"
