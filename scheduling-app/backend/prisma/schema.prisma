@@ -1,6 +1,6 @@
 // Configuração do Banco
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql" //mudei aqui de sqlite para esse
   url      = env("DATABASE_URL")
 }
 
