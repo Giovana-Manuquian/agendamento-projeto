@@ -8,11 +8,20 @@ export declare class AppointmentsService {
         clientName: string;
         clientEmail: string;
         date: Date;
-        status: string;
         serviceId: string;
+        status: string;
     }>;
-    findAll(): Promise<({
+    findAll(serviceId?: string): Promise<({
         service: {
+            user: {
+                id: string;
+                email: string;
+                name: string;
+                password: string;
+                specialty: string;
+                createdAt: Date;
+            };
+        } & {
             id: string;
             name: string;
             description: string | null;
@@ -25,8 +34,8 @@ export declare class AppointmentsService {
         clientName: string;
         clientEmail: string;
         date: Date;
-        status: string;
         serviceId: string;
+        status: string;
     })[]>;
     findOne(id: string): Promise<{
         service: {
@@ -42,23 +51,23 @@ export declare class AppointmentsService {
         clientName: string;
         clientEmail: string;
         date: Date;
-        status: string;
         serviceId: string;
+        status: string;
     }>;
     update(id: string, data: any): Promise<{
         id: string;
         clientName: string;
         clientEmail: string;
         date: Date;
-        status: string;
         serviceId: string;
+        status: string;
     }>;
     remove(id: string): Promise<{
         id: string;
         clientName: string;
         clientEmail: string;
         date: Date;
-        status: string;
         serviceId: string;
+        status: string;
     }>;
 }

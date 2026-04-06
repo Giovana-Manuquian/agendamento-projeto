@@ -1,10 +1,119 @@
-POST http://localhost:3000/appointments
-Content-Type: application/json
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### 0) Listar profissionais (se quiser reaproveitar existentes)
+# @name listUsers
+GET {{baseUrl}}/users
+
+### 1) Criar profissional (User)
+# @name createUserGiovana
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
 
 {
-  "clientName": "Cliente Teste",
-  "clientEmail": "cliente@email.com",
-  "date": "2026-03-25T15:00:00Z",
-  "serviceId": "41a1bb49-6728-4502-b2b0-3302950837bf" 
+  "email": "giovana+{{$timestamp}}@onnix.com",
+  "name": "Giovana",
+  "password": "123456",
+  "specialty": "Manicure"
 }
 
+### 1.1) Criar outro profissional (opcional)
+# @name createUserCarlos
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+
+{
+  "email": "carlos+{{$timestamp}}@onnix.com",
+  "name": "Carlos Silva",
+  "password": "123456",
+  "specialty": "Barbeiro"
+}
+
+### 2) Criar serviço (Service) — usa o id do User criado
+# @name createServiceManicure
+POST {{baseUrl}}/services
+Content-Type: {{contentType}}
+
+{
+  "name": "Manicure",
+  "description": "Atendimento completo",
+  "price": 80,
+  "duration": 60,
+  "userId": "{{createUserGiovana.response.body.$.id}}"
+}
+
+### 2.A) Criar serviço usando usuário já existente (rode o "0) Listar profissionais" antes)
+# @name createServiceManicureFromExisting
+POST {{baseUrl}}/services
+Content-Type: {{contentType}}
+
+{
+  "name": "Manicure",
+  "description": "Atendimento completo",
+  "price": 80,
+  "duration": 60,
+  "userId": "{{listUsers.response.body.$[0].id}}"
+}
+
+### 2.1) Criar outro serviço (opcional) — usa o id do outro User criado
+# @name createServiceCorte
+POST {{baseUrl}}/services
+Content-Type: {{contentType}}
+
+{
+  "name": "Corte masculino",
+  "description": "Corte + acabamento",
+  "price": 55,
+  "duration": 40,
+  "userId": "{{createUserCarlos.response.body.$.id}}"
+}
+
+### 2.1A) Criar outro serviço usando usuário já existente (rode o "0) Listar profissionais" antes)
+# @name createServiceCorteFromExisting
+POST {{baseUrl}}/services
+Content-Type: {{contentType}}
+
+{
+  "name": "Corte masculino",
+  "description": "Corte + acabamento",
+  "price": 55,
+  "duration": 40,
+  "userId": "{{listUsers.response.body.$[1].id}}"
+}
+
+### 3) Listar serviços
+GET {{baseUrl}}/services
+
+### 4) Criar agendamento (Appointment) — usa o id do Service criado
+# @name createAppointment
+POST {{baseUrl}}/appointments
+Content-Type: {{contentType}}
+
+{
+  "clientName": "Aline",
+  "clientEmail": "aline@gmail.com",
+  "date": "2026-03-30T15:30:00.000Z",
+  "serviceId": "{{createServiceManicure.response.body.$.id}}"
+}
+
+### 5) Listar agendamentos (Admin)
+GET {{baseUrl}}/appointments
+
+### 5.1) Listar agendamentos filtrando por serviço (opcional)
+GET {{baseUrl}}/appointments?serviceId={{createServiceManicure.response.body.$.id}}
+
+### 6) Confirmar agendamento — usa o id do Appointment criado
+PATCH {{baseUrl}}/appointments/{{createAppointment.response.body.$.id}}/status
+Content-Type: {{contentType}}
+
+{
+  "status": "CONFIRMED"
+}
+
+### 7) Cancelar agendamento — usa o id do Appointment criado
+PATCH {{baseUrl}}/appointments/{{createAppointment.response.body.$.id}}/status
+Content-Type: {{contentType}}
+
+{
+  "status": "CANCELED"
+}

@@ -1,10 +1,31 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module'; // Ele agora procura o arquivo na mesma pasta
+import { ValidationPipe } from '@nestjs/common'; // <-- Import adicionado aqui!
+import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors(); 
-  await app.listen(3000);
-  console.log('🚀 Servidor rodando em: http://localhost:3000');
+
+  const corsOriginsEnv = process.env.CORS_ORIGINS;
+  const corsOrigins =
+    corsOriginsEnv?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
+
+  app.enableCors({
+    origin: corsOrigins.length ? corsOrigins : true,
+    credentials: true,
+  });
+  
+  // As validações devem ser configuradas ANTES do app.listen
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: { enableImplicitConversion: true },
+    }),
+  );
+  
+  const port = Number(process.env.PORT ?? 3000);
+  await app.listen(port, '0.0.0.0');
+  console.log(`🚀 Servidor rodando em: http://localhost:${port}`);
 }
 bootstrap();

@@ -53,11 +53,21 @@ export class AppointmentsService {
     });
   }
 
-  async findAll() {
-    return this.prisma.appointment.findMany({
-      include: { service: true }
-    });
-  }
+// src/appointments/appointments.service.ts
+
+async findAll(serviceId?: string) {
+  return this.prisma.appointment.findMany({
+    where: {
+      ...(serviceId ? { serviceId } : {}), // Se passar o ID, filtra. Se não, traz todos.
+    },
+    include: {
+      service: {
+        include: { user: true } // Traz quem é o profissional (Giovana, Carlos...)
+      }
+    },
+    orderBy: { date: 'asc' } // Organiza do mais cedo para o mais tarde
+  });
+}
 
   // Busca um agendamento específico
   async findOne(id: string) {
@@ -81,4 +91,5 @@ export class AppointmentsService {
       where: { id },
     });
   }
+
 }

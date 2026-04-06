@@ -24,14 +24,17 @@ let AppointmentsController = class AppointmentsController {
     create(createAppointmentDto) {
         return this.appointmentsService.create(createAppointmentDto);
     }
-    findAll() {
-        return this.appointmentsService.findAll();
+    findAll(serviceId) {
+        return this.appointmentsService.findAll(serviceId);
     }
     findOne(id) {
         return this.appointmentsService.findOne(id);
     }
     update(id, updateAppointmentDto) {
         return this.appointmentsService.update(id, updateAppointmentDto);
+    }
+    updateStatus(id, status) {
+        return this.appointmentsService.update(id, { status });
     }
     remove(id) {
         return this.appointmentsService.remove(id);
@@ -47,8 +50,9 @@ __decorate([
 ], AppointmentsController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)('serviceId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AppointmentsController.prototype, "findAll", null);
 __decorate([
@@ -66,6 +70,14 @@ __decorate([
     __metadata("design:paramtypes", [String, update_appointment_dto_1.UpdateAppointmentDto]),
     __metadata("design:returntype", void 0)
 ], AppointmentsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Patch)(':id/status'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)('status')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], AppointmentsController.prototype, "updateStatus", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),

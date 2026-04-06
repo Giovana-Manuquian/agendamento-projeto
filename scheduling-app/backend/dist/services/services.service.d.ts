@@ -15,8 +15,8 @@ export declare class ServicesService {
     findAll(): Promise<({
         user: {
             id: string;
-            name: string;
             email: string;
+            name: string;
             password: string;
             specialty: string;
             createdAt: Date;
@@ -32,8 +32,8 @@ export declare class ServicesService {
     findOne(id: string): Promise<{
         user: {
             id: string;
-            name: string;
             email: string;
+            name: string;
             password: string;
             specialty: string;
             createdAt: Date;

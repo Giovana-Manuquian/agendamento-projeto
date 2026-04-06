@@ -49,9 +49,17 @@ let AppointmentsService = class AppointmentsService {
             },
         });
     }
-    async findAll() {
+    async findAll(serviceId) {
         return this.prisma.appointment.findMany({
-            include: { service: true }
+            where: {
+                ...(serviceId ? { serviceId } : {}),
+            },
+            include: {
+                service: {
+                    include: { user: true }
+                }
+            },
+            orderBy: { date: 'asc' }
         });
     }
     async findOne(id) {
