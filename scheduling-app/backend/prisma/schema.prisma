@@ -1,6 +1,10 @@
 // Configuração do Banco
 datasource db {
+<<<<<<< HEAD
   provider = "postgresql"
+=======
+  provider = "postgresql" //mudei aqui de sqlite para esse
+>>>>>>> aa6c963af88de56e0c319852cdecf9a1294572f6
   url      = env("DATABASE_URL")
 }
 
