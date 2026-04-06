@@ -10,7 +10,8 @@ async function bootstrap() {
     corsOriginsEnv?.split(',').map((s) => s.trim()).filter(Boolean) ?? [];
 
   app.enableCors({
-    origin: corsOrigins.length ? corsOrigins : true,
+    origin: 'https://agendamento-projeto-front-v2.vercel.app',
+    // origin: corsOrigins.length ? corsOrigins : true,
     credentials: true,
   });
   
