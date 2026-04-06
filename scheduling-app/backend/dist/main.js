@@ -18,7 +18,7 @@ async function bootstrap() {
         transformOptions: { enableImplicitConversion: true },
     }));
     const port = Number(process.env.PORT ?? 3000);
-    await app.listen(port, '0.0.0.0');
+    await app.listen(port);
     console.log(`🚀 Servidor rodando em: http://localhost:${port}`);
 }
 bootstrap();
